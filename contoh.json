@@ -1,0 +1,9 @@
+{
+    "nama": "John Doe",
+    "umur": 30,
+    "alamat": {
+        "jalan": "Jl. Contoh",
+        "kota": "Jakarta"
+    },
+    "hobi": ["berenang", "membaca", "memasak"]
+}

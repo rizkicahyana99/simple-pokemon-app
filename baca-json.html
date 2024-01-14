@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baca JSON</title>
+</head>
+<body>
+    <h1>Data Pengguna</h1>
+
+    <table>
+        <tr>
+            <td>Nama</td>
+            <td>:</td>
+            <td id="nama"></td>
+        </tr>
+        <tr>
+            <td>Umur</td>
+            <td>:</td>
+            <td id="umur"></td>
+        </tr>
+        <tr>
+            <td>Alamat</td>
+            <td>:</td>
+            <td id="alamat"></td>
+        </tr>
+        <tr>
+            <td>Hobi</td>
+            <td>:</td>
+            <td id="hobi"></td>
+        </tr>
+        
+    </table>
+
+    <script>
+        // menggunakan methode fetch
+        fetch('./contoh.json') // mengambil data dari sumber external
+            .then((response) => response.json()) // mengubah response menjadi json
+            .then((response) => { // membaca
+                // console.log(response);
+
+                let nama = response.nama;
+                let umur = response.umur;
+                let alamat = response.alamat;
+                let hobi = response.hobi;
+
+                document.getElementById('nama').innerHTML = nama;
+                document.getElementById('umur').innerHTML = umur;
+                document.querySelector('#alamat').innerHTML = `${alamat.jalan}, ${alamat.kota}`;
+                
+                let temp = '<ul>';
+                    hobi.forEach(data => {
+                    temp += `<li>${data}</li>`;
+                });
+                temp += '</ul>';
+                
+                document.querySelector('#hobi').innerHTML = temp;
+            })
+            .catch((err) => {   // ketika ada error, ini dieksekusi
+                console.log(err);
+             });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax</title>
+</head>
+<body>
+    
+    <h1>Data Pokemon</h1>
+
+    <label for="input_pokemon">Nama Pokemon: </label>
+    <input type="text" id="input_pokemon" placeholder="Tulis Nama Pokemon" /> <br/><br/>
+
+    <button onclick="getPokemon();">Generate</button>
+    <br/><br/>
+
+    <hr/>
+    <h1>Hasil: </h1>
+
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>:</td>
+            <td id="name"></td>
+        </tr>
+        <tr>
+            <td>Exp</td>
+            <td>:</td>
+            <td id="base_experience"></td>
+        </tr>
+        <tr>
+            <td>Ability</td>
+            <td>:</td>
+            <td id="abilities"></td>
+        </tr>
+        <tr>
+            <td>Stat</td>
+            <td>:</td>
+            <td id="stats"></td>
+        </tr>
+        <tr>
+            <td>Images</td>
+            <td>:</td>
+            <td id="sprites"></td>
+        </tr>
+        
+    </table>
+
+    <script>
+        function getPokemon () {
+            let keyword = document.getElementById('input_pokemon').value;
+
+            fetch('https://pokeapi.co/api/v2/pokemon/' + keyword.toLowerCase())
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+
+                    // let data = JSON.parse(response.target.response);
+
+                    let name = data.name;
+                    let temp_abilities = data.abilities;
+                    let abilities = '<ul>';
+                    for (let i=0; i < temp_abilities.length; i++) {
+                        abilities += `<li>${temp_abilities[i].ability.name}</li>`;
+                    }
+                    abilities += '</ul>';
+
+                    let base_experience = data.base_experience;
+
+                    let temp_stats = data.stats;
+                    let stats = '<ul>';
+                    for (let i=0; i < temp_stats.length; i++) {
+                        stats += `<li>${temp_stats[i].stat.name}: ${temp_stats[i].base_stat}</li>`;
+                    }
+                    stats += '</ul>';
+
+                    let temp_sprites = data.sprites;
+
+                    let sprites = '';
+                    for (const [key, value] of Object.entries(temp_sprites)) {
+                        // console.log(`${key} ${value}`);
+                        sprites += `<img src="${value}" />`;
+
+                    }
+
+
+                    document.getElementById('name').innerHTML = name;
+                    document.getElementById('abilities').innerHTML = abilities;
+                    document.getElementById('base_experience').innerHTML = base_experience;
+                    document.getElementById('stats').innerHTML = stats;
+                    document.getElementById('sprites').innerHTML = sprites;
+                })
+                .catch(error => console.log(error));
+
+        }
+
+
+    </script>
+
+</body>
+</html>
